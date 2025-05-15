@@ -1,71 +1,58 @@
-import './App.css'
-import Card from './Card'
+import React from 'react';
+import { BrowserRouter, Routes, Route, Link as RouterLink } from "react-router-dom"; // Renombrar Link si hay colisión
+
+import About from './About';
+import ContactUs from './ContactUs';
+import TeamSection from './TeamSection';
+import NotFound from  './NotFound'
+
+import Nav from './Nav';
+import Card from './Card';
+
+import './App.css';
+
+
+const products = [
+  { id: 1, name: 'Producto Alfa', properties: 'Descripción Alfa.', b64Image: 'https://placehold.co/600x400/E97451/white?text=Producto+Alfa', model: 'A001' },
+  { id: 2, name: 'Producto Beta', properties: 'Descripción Beta.', b64Image: 'https://placehold.co/600x400/50C878/white?text=Producto+Beta', model: 'B002' },
+  { id: 3, name: 'Producto Gamma', properties: 'Descripción Gamma.', b64Image: 'https://placehold.co/600x400/1E90FF/white?text=Producto+Gamma', model: 'G003' },
+  { id: 4, name: 'Producto Delta', properties: 'Descripción Delta.', b64Image: 'https://placehold.co/600x400/F28C28/white?text=Producto+Delta', model: 'D004' },
+];
 
 
 function App() {
-  
-  const products = [
-    {
-      name: "Electronic Frozen Soap",
-      model: "978-1-894542-44-9",
-      hexColor: "#494719",
-      b64Image: "https://picsum.photos/seed/5htb27xeX/640/480",
-      properties: "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
-    },
-    {
-      name: "Unbranded Fresh Shoes",
-      model: "978-1-905099-69-6",
-      b64Image: "https://picsum.photos/seed/ozuQiMyzNK/640/480",
-      properties: "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
-    },
-    {
-      name: "Modern Granite Towels",
-      model: "978-0-260-37094-5",
-      b64Image: "https://picsum.photos/seed/R2VuLA/640/480",
-      properties: "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
-    },
-    {
-      name: "Luxurious Fresh Car",
-      model: "978-0-448-40650-3",
-      b64Image: "https://picsum.photos/seed/TkJvL/640/480",
-      properties: "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
-    },
-    {
-      name: "Modern Rubber Chair",
-      model: "978-1-7904-2553-2",
-      b64Image: "https://picsum.photos/seed/rDWbwgbgDz/640/480",
-      properties: "The Football Is Good For Training And Recreational Purposes",
-    },
-    {
-      name: "Sleek Cotton Tuna",
-      model: "978-1-184-04781-4",
-      b64Image: "https://picsum.photos/seed/otI5DVDz/640/480",
-      properties: "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-    },
-    {
-      name: "Licensed Granite Ball",
-      model: "978-1-74218-429-6",
-      b64Image: "https://picsum.photos/seed/1fujI/640/480",
-      properties: "The Football Is Good For Training And Recreational Purposes",
-    },
-    {
-      name: "Intelligent Metal Pants",
-      model: "978-1-84836-342-7",
-      b64Image: "https://picsum.photos/seed/Y5knt1/640/480",
-      properties: "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
-    }];
   return (
-    <>
-    <div key="product-grid" className="bg-orange-500 p-8 grid grid-cols-4 gap-4">      
-        {products.map(e=><div key={e.model+"div"}><Card key={e.model} title={e.name} paragraph={e.properties} image={e.b64Image} model={e.model}/></div>)}
-    </div>
-    <div>
-    {/* <ContactUs/>
-    <TeamSection/>
-    <About/> */}
-    </div>
-    </>
-  )
+    <BrowserRouter>
+      <Nav />
+      <main className="pt-20 min-h-screen bg-gray-100 dark:bg-gray-800 py-8">
+        <Routes>
+          <Route path="/" element={
+            <div className="container mx-auto py-8 px-4">
+              <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-10">
+                Catálogo de Productos
+              </h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {products.map(product => (
+                  <Card
+                    key={product.id}
+                    title={product.name}
+                    paragraph={product.properties}
+                    image={product.b64Image}
+                    productRef={`/producto/${product.id}`}
+                  />
+                ))}
+              </div>
+            </div>
+          } />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/team" element={<TeamSection />} />
+          <Route path="/about" element={<About />} />
+          
+
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
